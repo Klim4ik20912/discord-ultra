@@ -19,4 +19,10 @@ async def on_ready():
     print(f"Logged in as {bot.user}.")
 
 
+@bot.event
+async def on_error(event: str, *args, **kwargs):
+    pass
+    
+
+
 bot.run(token)

@@ -27,12 +27,14 @@ class Verify(commands.Cog):
             embed2=disnake.Embed(title="Готово!", description=f"{adm_msg}", color=0xff0000)
             embed2.add_field(name="+100 social credits", value="Поздравляю!", inline=False)
 
-            await ctx.send_message(embed=embed2)
+            await ctx.response.send_message(embed=embed2)
             
             await user.send(embed=embed)
         else:
-            await ctx.send_message("Прости, но этот чел уже авторизирован")
+            await ctx.response.send_message("Прости, но этот чел уже авторизирован")
 
 
 
 
+def setup(bot):
+    bot.add_cog(Verify(bot))

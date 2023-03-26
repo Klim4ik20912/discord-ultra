@@ -36,7 +36,7 @@ class SQLighter:
         self.connection.commit()
 
     def register(self, user_id: int, admin: int) -> bool:
-        if self.cursor.execute(f"SELECT user FROM users WHERE user = ?", (user_id)).fetchone() == None:
+        if self.cursor.execute(f"SELECT user FROM users WHERE user = ?", (user_id,)).fetchone() == None:
             self.cursor.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (user_id, 0, 0, 0, None, 0, None, admin, 0, 0))
             self.connection.commit()
             return True
@@ -52,3 +52,6 @@ class SQLighter:
         except Exception as e:
             return False
         
+    def get_bal(self, user_id: int) -> int:
+        balance = self.cursor.execute("SELECT balance FROM users WHERE user = ?", (user_id)).fetchone()[0]
+        return balance
