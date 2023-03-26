@@ -15,11 +15,13 @@ class BanCog(commands.Cog):
             db = SQLighter("disnake.db")
             db.ban(member.id, ctx.author.id, reason=reason)
             await member.ban(reason=reason)
-            await ctx.send_message(f'{member.display_name} был забанен.')
+            await ctx.response.send_message(f'{member.display_name} был забанен.')
             await member.send(f"Ты был забанен {ctx.author.mention}. Если бан был выдан по ошибке обратись к администраторам")
         except errors.Forbidden:
-            await ctx.send_message('У меня нет разрешения на бан пользователей.')
+            await ctx.response.send_message('У меня нет разрешения на бан пользователей.')
         except errors.HTTPException:
-            await ctx.send_message('Не удалось забанить пользователя.')
+            await ctx.response.send_message('Не удалось забанить пользователя.')
             
 
+def setup(bot):
+    bot.add_cog(BanCog(bot))
