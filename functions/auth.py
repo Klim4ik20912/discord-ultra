@@ -13,7 +13,11 @@ class Verify(commands.Cog):
     @commands.has_any_role("admin")
     async def verifyuser(self, ctx, user: disnake.Member):
         db =  SQLighter("disnake.db")
-        if db.register(user.id, ctx.author.id):
+
+        if db.check_user(user.id):
+            await ctx.response.send_message("Он уже авторизован")
+
+        elif db.register(user.id, ctx.author.id):
             role = disnake.utils.get(user.guild.roles, name=auth_role)
             role_rem = disnake.utils.get(user.guild.roles, name=start_role)
             await user.add_roles(role)

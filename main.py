@@ -9,10 +9,7 @@ bot = commands.Bot(command_prefix='?', intents=disnake.Intents.all())
 client = disnake.Client()
 
 
-bot.load_extension("functions.member_join")
-bot.load_extension("functions.auth")
-bot.load_extension("functions.ban")
-
+bot.load_extensions("functions")
 
 @bot.event
 async def on_ready():

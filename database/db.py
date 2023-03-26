@@ -43,15 +43,46 @@ class SQLighter:
         else:
             return False
     
-    def ban(self, user_id: int, admin_id: int, reason: str):
+    def ban(self, user_id: int, admin: str, reason: str):
         try:
-            self.cursor.execute(f"UPDATE users SET ban = {1} WHERE user = ?", (user_id))
-            self.cursor.execute(f"UPDATE users SET banned_by = ? WHERE user = ?", (admin_id, user_id))
+            self.cursor.execute(f"UPDATE users SET ban = {1} WHERE user = ?", (user_id,))
+            self.cursor.execute(f"UPDATE users SET banned_by = ? WHERE user = ?", (admin, user_id,))
             self.connection.commit()
             return True
         except Exception as e:
+            print(e)
             return False
         
     def get_bal(self, user_id: int) -> int:
-        balance = self.cursor.execute("SELECT balance FROM users WHERE user = ?", (user_id)).fetchone()[0]
+        balance = self.cursor.execute(f"SELECT balance FROM users WHERE user = {user_id}").fetchone()[0]
         return balance
+
+    def check_user(self, user_id: int) -> bool:
+        if self.cursor.execute(f"SELECT * FROM users WHERE user = ?", (user_id,)).fetchone() == None:
+            return False
+        else:
+            return True
+        
+    def trans(self, user: int, recipient: int, money: int) -> bool:
+        try:
+            self.cursor.execute(f"UPDATE users SET balance = {self.get_bal(user) - money} WHERE user = {user}")
+
+            self.cursor.execute(f"UPDATE users SET balance = {self.get_bal(recipient) + money} WHERE user = {recipient}")
+            self.connection.commit()
+            return True
+        except:
+            return False
+        
+    def add_bal(self, user):
+        self.cursor.execute(f"UPDATE users SET balance = {50000} WHERE user = {user}")
+        self.connection.commit()
+    
+    def unban(self, user):
+        try:
+            self.cursor.execute(f"UPDATE users SET ban = {1} WHERE user = ?", (user_id,))
+            self.cursor.execute(f"UPDATE users SET banned_by = ? WHERE user = ?", (admin, user_id,))
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False

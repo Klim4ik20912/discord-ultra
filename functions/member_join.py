@@ -16,7 +16,7 @@ class MemberJoin(commands.Cog):
 
         channel = self.bot.get_channel(1089273266843172977)
 
-        channel.send(embed=embed)
+        await channel.send(embed=embed)
 
         
             
