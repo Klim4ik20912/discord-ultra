@@ -50,7 +50,6 @@ class SQLighter:
             self.connection.commit()
             return True
         except Exception as e:
-            print(e)
             return False
         
     def get_bal(self, user_id: int) -> int:
@@ -79,10 +78,9 @@ class SQLighter:
     
     def unban(self, user):
         try:
-            self.cursor.execute(f"UPDATE users SET ban = {1} WHERE user = ?", (user_id,))
-            self.cursor.execute(f"UPDATE users SET banned_by = ? WHERE user = ?", (admin, user_id,))
+            self.cursor.execute(f"UPDATE users SET ban = {0} WHERE user = ?", (user,))
+            self.cursor.execute(f"UPDATE users SET banned_by = None WHERE user = ?", (user,))
             self.connection.commit()
             return True
         except Exception as e:
-            print(e)
             return False
