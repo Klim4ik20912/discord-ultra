@@ -10,7 +10,8 @@ class BanCog(commands.Cog):
     
     @commands.slash_command(name="pban", description="перманетный бан юзер бай админс")
     @commands.has_any_role("admin")
-    async def ban(self, ctx, member: Member, *, reason=None):
+    async def ban(self, ctx, member: Member = commands.Param(description="Кому выдать бан?"), *,
+                   reason=commands.Param(description="Причина бана", default=None, autocomplete=ban_reasons)):
         db = SQLighter("discord.db")
         if db.check_user(member.id):
             try:
@@ -37,7 +38,8 @@ class BanCog(commands.Cog):
     
     @commands.slash_command(name="tban", description="бан юзер бай админс")
     @commands.has_any_role("admin")
-    async def tban(ctx, member: Member, *, reason=None):
+    async def tban(ctx, member: Member=commands.Param(description="Кому выдать бан?"), *,
+                    reason=commands.Param(description="Причина бана", default=None, autocomplete=ban_reasons)):
         db = SQLighter("discord.db")
         if db.check_user(member.id):
             role = utils.get(member.guild.roles, name=ban_role)

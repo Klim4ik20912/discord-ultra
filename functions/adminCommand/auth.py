@@ -11,7 +11,7 @@ class Verify(commands.Cog):
 
     @commands.slash_command(name="v2", description="Вирифай юзер бай админ")
     @commands.has_any_role("admin")
-    async def verifyuser(self, ctx, user: disnake.Member):
+    async def verifyuser(self, ctx, user: disnake.Member = commands.Param(description="кого хочешь авторизовать?") ):
         db =  SQLighter("disnake.db")
 
         if db.check_user(user.id):

@@ -84,3 +84,9 @@ class SQLighter:
             return True
         except Exception as e:
             return False
+    
+    def append_bal(self, user: int, money: int):
+        balance = self.get_bal(user)
+        self.cursor.execute(f"UPDATE users SET balance = {balance + money} WHERE user = {user}")
+        self.connection.commit()
+        return True

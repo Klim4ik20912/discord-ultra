@@ -9,7 +9,7 @@ class Checkbal(commands.Cog):
         self.bot = bot
 
     @commands.slash_command(name="balance", description="Проверить свой или чужой баланс")
-    async def checkbalance(ctx, member: disnake.Member=None):
+    async def checkbalance(ctx, member: disnake.Member=commands.Param(description="чей баланс хочешь узнать", default=None)):
         db = SQLighter("discord.db")
         klim4ik = await ctx.guild.fetch_emoji(1089599616917438608)
 

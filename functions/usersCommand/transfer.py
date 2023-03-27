@@ -9,7 +9,8 @@ class Transfer(commands.Cog):
         self.bot = bot
     
     @commands.slash_command(name="transfer", description="Перевод валют")
-    async def trans(ctx, user: disnake.Member, value: int):
+    async def trans(ctx, user: disnake.Member = commands.Param(description="Кому хочешь передать климчики?"),
+                    value: int =commands.Param(description="Сколько передать климчиков?")):
         try:
             db = SQLighter("discord.db")
             if not db.check_user(ctx.author.id):
