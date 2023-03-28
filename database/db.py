@@ -1,6 +1,7 @@
 from config import *
-
+import datetime
 import sqlite3
+from datetime import timedelta
 
 
 
@@ -90,3 +91,39 @@ class SQLighter:
         self.cursor.execute(f"UPDATE users SET balance = {balance + money} WHERE user = {user}")
         self.connection.commit()
         return True
+    
+    def mute(self, user_id, duration, reason):
+        a = (datetime.datetime.now() + timedelta(minutes=duration)).strftime('%Y-%m-%d %H:%M:%S')
+        self.cursor.execute(f"UPDATE users SET mute = '{a}' WHERE user = {user_id}")
+        print(a)
+        self.connection.commit()
+
+    # def get_mutes(self):
+    #     all_ids = []
+    #     for i in self.cursor.execute(f"SELECT user, mute FROM users"):
+    #         user_id = i[0]
+    #         mute_time = i[1]
+    #         now = datetime.datetime.now()
+    #         if mute_time != 'None':
+    #             m_time = datetime.datetime.strptime(mute_time, '%Y-%m-%d %H:%M:%S')
+    #             for b in mute_time:
+    #                 if m_time >= now and mute_time != 'None':
+    #                     self.cursor.execute(f"UPDATE users SET mute = 'None' WHERE user = {user_id}")
+    #                     self.connection.commit()
+    #                     all_ids.append(user_id)
+    #     return all_ids
+
+    def get_mutes(self):
+        all_ids = []
+        for i in self.cursor.execute(f"SELECT user, mute FROM users"):
+            user_id = i[0]
+            mute_time = i[1]
+            now = datetime.datetime.now()
+            if mute_time != 'None':
+                m_time = datetime.datetime.strptime(mute_time, '%Y-%m-%d %H:%M:%S')
+                if m_time <= now:
+                    self.cursor.execute(f"UPDATE users SET mute = 'None' WHERE user = {user_id}")
+                    self.connection.commit()
+                    all_ids.append(user_id)
+        return all_ids
+
