@@ -20,6 +20,7 @@ class Sheduler(commands.Cog):
             user = self.bot.get_guild(guild_id).get_member(user_id)
             role = disnake.utils.get(user.guild.roles, name="text mute")
             await user.remove_roles(role)
+            await user.send("ты был автоматически размучен. (тут типо красивый эмбед)")
 
     
     @commands.Cog.listener()

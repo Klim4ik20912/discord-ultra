@@ -119,7 +119,7 @@ class SQLighter:
             user_id = i[0]
             mute_time = i[1]
             now = datetime.datetime.now()
-            if mute_time != 'None':
+            if mute_time != 'None' and mute_time != None:
                 m_time = datetime.datetime.strptime(mute_time, '%Y-%m-%d %H:%M:%S')
                 if m_time <= now:
                     self.cursor.execute(f"UPDATE users SET mute = 'None' WHERE user = {user_id}")

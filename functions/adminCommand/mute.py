@@ -15,6 +15,8 @@ class TempMuteCog(commands.Cog):
         tmute_role = utils.get(user.guild.roles, name="text mute")
         await user.add_roles(tmute_role)
         db.mute(user_id=user.id, duration=duration, reason=reason)
+        await ctx.response.send_message(f"ты замутил {user.display_name}#{user.id.denominator} (тут красивый эмбед)")
+        await user.send("ты был замучен (тут типа красивый эмбед)")
 
     
 
