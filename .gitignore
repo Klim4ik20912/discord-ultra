@@ -1,6 +1,7 @@
 /config.py
 /discord.db
 /__pycache__/
+__pycache__/
 /database/__pycache__/
 /functions/__pycache__/
 .vscode/settings.json
