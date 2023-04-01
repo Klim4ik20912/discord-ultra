@@ -78,13 +78,10 @@ class SQLighter:
         self.connection.commit()
     
     def unban(self, user):
-        try:
-            self.cursor.execute(f"UPDATE users SET ban = {0} WHERE user = ?", (user,))
-            self.cursor.execute(f"UPDATE users SET banned_by = None WHERE user = ?", (user,))
-            self.connection.commit()
-            return True
-        except Exception as e:
-            return False
+        self.cursor.execute(f"UPDATE users SET ban = {0} WHERE user = ?", (user,))
+        self.cursor.execute(f"UPDATE users SET banned_by = ? WHERE user = ?", (None, user,))
+        self.connection.commit()
+        return True
     
     def append_bal(self, user: int, money: int):
         balance = self.get_bal(user)
@@ -127,4 +124,14 @@ class SQLighter:
                     all_ids.append(user_id)
         return all_ids
 
- 
+
+    def unmute(self, user_id):
+        self.cursor.execute(f"UPDATE users SET mute = ? WHERE user = {user_id}", (None,))
+        self.connection.commit()
+
+    def check_ban(self, user_id):
+        is_ban = self.cursor.execute(f"SELECT ban FROM users WHERE user = {user_id}").fetchone()
+        if is_ban[0] == 0:
+            return True
+        else:
+            return False

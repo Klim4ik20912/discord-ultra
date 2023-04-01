@@ -20,8 +20,9 @@ class Sheduler(commands.Cog):
             user = self.bot.get_guild(guild_id).get_member(user_id)
             role = disnake.utils.get(user.guild.roles, name="text mute")
             await user.remove_roles(role)
-            await user.send("ты был автоматически размучен. (тут типо красивый эмбед)")
-
+            embed=disnake.Embed(title="С вас был снят мут", description=f"{user.mention}, с Вас был снят **мут**. Вы можете продолжить общаться", color=0x00ff00)
+            embed.set_thumbnail(url=str(user.display_avatar.url))
+            await user.send(embed=embed)
     
     @commands.Cog.listener()
     async def on_ready(self):
